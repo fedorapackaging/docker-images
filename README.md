@@ -1,41 +1,21 @@
 Docker Images to Build (Official) Fedora/EPEL Packages
 ======================================================
 
-# Fedora Rawhide
+# Using Fedora Packaging Docker Images
+``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora26``, ``epel7``
 
-## Get the Docker image from Docker Hub
 ```bash
-$ docker pull fedorapackaging/rawhide:latest
+$ docker pull fedorapackaging/<fedora-or-epel-version>:latest
+$ docker run --rm -it fedorapackaging/<fedora-or-epel-version>
+> cdfedorareview
+> rpmbuild -ba <my-package-spec>
+> exit
+$ docker kill fedorapackaging/<fedora-or-epel-version>
 ```
 
-## Build the Docker image
+# Building a Fedora Packaging Docker Image
 ```bash
-$ docker build -t fedorapackaging/rawhide:latest --squash .
-$ 
+$ docker build -t fedorapackaging/<fedora-or-epel-version>:latest --squash .
+$ docker push fedorapackaging/<fedora-or-epel-version>:latest
 ```
-
-# Fedora 26
-
-## Get the Docker image from Docker Hub
-```bash
-$ docker pull fedorapackaging/fedora26:latest
-```
-
-## Build the Docker image
-```bash
-$ docker build -t fedorapackaging/fedora26:latest --squash .
-```
-
-# EPEL 7
-
-## Get the Docker image from Docker Hub
-```bash
-$ docker pull fedorapackaging/epel7:latest
-```
-
-## Build the Docker image
-```bash
-$ docker build -t fedorapackaging/epel7:latest --squash .
-```
-
 
