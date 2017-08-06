@@ -6,9 +6,17 @@ Docker Images to Build (Official) Fedora/EPEL Packages
 
 ```bash
 $ docker pull fedorapackaging/<fedora-or-epel-version>:latest
-$ docker run --rm --privileged=true -it fedorapackaging/<fedora-or-epel-version>
+$ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/<fedora-or-epel-version>
+> mkdir -p fedora_packaging
+> cd fedora_packaging
+> kinit <fas-username>@FEDORAPROJECT.ORG
+> fedpkg stdair
+> cd stdair
+> fedpkg sources
+> cp stdair-*.bz2 ~/dev/packages/SOURCES
+> cp stdair.spec ~/dev/packages/SPECS
 > cdbuild
-> rpmbuild -ba <my-package-spec>
+> rpmbuild -ba stdair.spec
 > exit
 $ docker kill fedorapackaging/<fedora-or-epel-version>
 ```
@@ -17,7 +25,6 @@ $ docker kill fedorapackaging/<fedora-or-epel-version>
 ```bash
 $ docker build -t fedorapackaging/<fedora-or-epel-version>:latest \
   --build-arg full_name="<your-full-name>" --build-arg email_address="<your-email-address>" \
-  --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" \
   --squash .
 $ docker push fedorapackaging/<fedora-or-epel-version>:latest
 ```

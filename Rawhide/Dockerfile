@@ -5,9 +5,6 @@ MAINTAINER Denis Arnaud <des.arnaud_fedora@m4x.org>
 # Maintainer details (full name and email address)
 ARG full_name
 ARG email_address
-# Maintainer SSH keys
-ARG ssh_pub_key
-ARG ssh_prv_key
 
 #
 ENV HOME /home/build
@@ -27,25 +24,24 @@ RUN cat /root/bashrc >> /root/.bashrc && rm -f /root/bashrc
 RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion || echo "Issue with installing fedora-packager. That's fine"
 
 # Specific to C++-based packages (with Python bindings)
-RUN dnf -y install boost-devel cmake python-devel python3-devel || echo "Issue with installing boost-devel. That's fine"
+RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel || echo "Issue with installing boost-devel. That's fine"
 
 # Documentation tools
-RUN dnf -y install "tex(latex)" doxygen ghostscript || echo "Issue with installing documentation tools. That's fine"
+RUN dnf -y install "tex(latex)" || echo "Issue with installing Latex. That's fine"
+RUN dnf -y install doxygen ghostscript || echo "Issue with installing documentation tools. That's fine"
 
 # SOCI, ZeroMQ
 RUN dnf -y install zeromq-devel czmq-devel soci-mysql-devel soci-sqlite3-devel readline-devel || echo "Issue with installing zeromq. That's fine"
 
 # Create the 'build' user (for the package maintainer)
 RUN adduser -m -G mock build
-RUN echo "user ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/user && \
-    chmod 0440 /etc/sudoers.d/user
+RUN echo "build ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/build && \
+    chmod 0440 /etc/sudoers.d/build
 # Copy the SSH keys
 RUN mkdir -p $HOME/.ssh && chmod 700 $HOME/.ssh
-RUN echo "$ssh_prv_key" > $HOME/.ssh/id_rsa && echo "$ssh_pub_key" > $HOME/.ssh/id_rsa.pub
 RUN ssh-keyscan pkgs.fedoraproject.org > $HOME/.ssh/known_hosts
 ADD resources/ssh-config $HOME/.ssh/config
-RUN chmod 600 $HOME/.ssh/id_rsa $HOME/.ssh/config $HOME/.ssh/known_hosts
-
+RUN chmod 600 $HOME/.ssh/config $HOME/.ssh/known_hosts
 
 # Set up the packaging environment
 ADD resources/rpmmacros resources/bashrc resources/gitconfig $HOME/
