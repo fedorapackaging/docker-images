@@ -1,6 +1,13 @@
 Docker Images to Build (Official) Fedora/EPEL Packages
 ======================================================
 
+# Introduction
+That project produces Fedora/CentOS-based Docker images,
+hosted on [dedicated public Docker Hub site](https://hub.docker.com/r/fedorapackaging/builder/).
+Those Docker images are intended to ease the maintenance work of official Fedora/EPEL RPM packagers.
+
+That project takes its inspiration from [Alan Franzoni's own initiative](http://github.com/alanfranz/docker-rpm-builder).
+
 # Images on Docker Hub
 * Docker Hub dashboard: https://hub.docker.com/r/fedorapackaging/builder/
 
