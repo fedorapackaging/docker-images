@@ -1,6 +1,6 @@
 
 FROM docker.io/centos:7
-MAINTAINER Denis Arnaud <des.arnaud_fedora@m4x.org>
+MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
 
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 

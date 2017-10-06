@@ -1,6 +1,6 @@
 
 FROM fedora:26
-MAINTAINER Denis Arnaud <des.arnaud_fedora@m4x.org>
+MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
 
 # Maintainer details (full name and email address)
 ARG full_name
@@ -16,15 +16,15 @@ RUN dnf -y clean all
 RUN dnf -y update || echo "Issue with RPM DB, that's fine"
 
 # Basic, convenient
-RUN dnf -y install less htop net-tools which sudo keychain || echo "Issue with installing less. That's fine"
+RUN dnf -y install less htop net-tools which sudo keychain man || echo "Issue with installing less. That's fine"
 ADD resources/bashrc /root/
 RUN cat /root/bashrc >> /root/.bashrc && rm -f /root/bashrc
 
 # Fedora/CentOS/RedHat packaging
-RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion || echo "Issue with installing fedora-packager. That's fine"
+RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod || echo "Issue with installing fedora-packager. That's fine"
 
 # Specific to C++-based packages (with Python bindings)
-RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel || echo "Issue with installing boost-devel. That's fine"
+RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"
 
 # Documentation tools
 RUN dnf -y install "tex(latex)" || echo "Issue with installing Latex. That's fine"
@@ -64,9 +64,10 @@ USER build
 RUN rpmdev-setuptree
 
 # Check out the Fedora review helper project
-RUN mkdir -p $HOME/dev
+RUN mkdir -p $HOME/dev/fedora_packaging
 WORKDIR $HOME/dev
 RUN git clone https://github.com/fedorapackaging/fedorareviews.git
+WORKDIR $HOME/dev/fedora_packaging
 
 # Entry point
 CMD ["/bin/bash"]
