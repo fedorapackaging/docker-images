@@ -1,0 +1,6 @@
+%vendor                 Fedora
+%_signature             gpg
+%_topdir                %(echo $HOME)/dev/packages
+%_smp_mflags            -j4
+%__arch_install_post   /usr/lib/rpm/check-rpaths   /usr/lib/rpm/check-buildroot
+
