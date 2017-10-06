@@ -2,11 +2,14 @@ Docker Images to Build (Official) Fedora/EPEL Packages
 ======================================================
 
 # Introduction
-That project produces Fedora/CentOS-based Docker images,
+[That project](https://github.com/fedorapackaging/docker-images) produces Fedora/CentOS-based Docker images,
 hosted on [dedicated public Docker Hub site](https://hub.docker.com/r/fedorapackaging/builder/).
 Those Docker images are intended to ease the maintenance work of official Fedora/EPEL RPM packagers.
 
 That project takes its inspiration from [Alan Franzoni's own initiative](http://github.com/alanfranz/docker-rpm-builder).
+
+Every time some changes are committed on the [project's GitHub repository](https://github.com/fedorapackaging/docker-images),
+the [Docker images are automatically rebuilt](https://hub.docker.com/r/fedorapackaging/builder/builds/) and pushed onto Docker Hub.
 
 # Images on Docker Hub
 * Docker Hub dashboard: https://hub.docker.com/r/fedorapackaging/builder/
@@ -17,25 +20,44 @@ That project takes its inspiration from [Alan Franzoni's own initiative](http://
 ```bash
 $ docker pull fedorapackaging/<fedora-or-epel-version>:latest
 $ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/<fedora-or-epel-version>
-> mkdir -p fedora_packaging
-> cd fedora_packaging
-> kinit <fas-username>@FEDORAPROJECT.ORG
-> fedpkg stdair
-> cd stdair
-> fedpkg sources
-> cp stdair-*.bz2 ~/dev/packages/SOURCES
-> cp stdair.spec ~/dev/packages/SPECS
-> cdbuild
-> rpmbuild -ba stdair.spec
-> exit
+[build@5..0 dev]$ kinit <fas-username>@FEDORAPROJECT.ORG
+[build@5..0 dev]$ MYPACKAGE=boost
+[build@5..0 dev]$ fedpkg clone $MYPACKAGE
+[build@5..0 dev]$ cd $MYPACKAGE
+[build@5..0 dev]$ fedpkg sources
+[build@5..0 dev]$ # Make some changes on the RPM specification file
+[build@5..0 dev]$ vi $MYPACKAGE.spec
+[build@5..0 dev]$ # Build locally
+[build@5..0 dev]$ fedpkg local
+[build@5..0 dev]$ # and/or
+[Build@5..0 dev]$ cp -a *.{patch,bz2,so,py} ~/dev/packages/SOURCES
+[build@5..0 dev]$ cp -a *.spec ~/dev/packages/SPECS
+[build@5..0 dev]$ cdbuild
+[build@5..0 dev]$ rpmbuild -ba $MYPACKAGE.spec
+[build@5..0 dev]$ # If everything went well, commit your work, update the Fedora repository and build with Koji
+[build@5..0 dev]$ cd -
+[build@5..0 dev]$ fedpkg clog
+[build@5..0 dev]$ fedpkg commit -F clog -p
+[build@5..0 dev]$ fedpkg build --nowait
+[build@5..0 dev]$ exit
 $ docker kill fedorapackaging/<fedora-or-epel-version>
 ```
 
 # Building a Fedora Packaging Docker Image
+The images may be customized, and pushed to Docker Hub:
 ```bash
-$ docker build -t fedorapackaging/<fedora-or-epel-version>:latest \
+$ vi Dockerfile
+$ docker build -t fedorapackaging/<fedora-or-epel-version>:beta \
   --build-arg full_name="<your-full-name>" --build-arg email_address="<your-email-address>" \
   --squash .
-$ docker push fedorapackaging/<fedora-or-epel-version>:latest
+$ docker push fedorapackaging/<fedora-or-epel-version>:beta
 ```
+
+# TODO
+For any of the following features, an issue may be open [on GitHub](https://github.com/fedorapackaging/docker-images/issues):
+1. Have dedicated Docker images per main development stacks, for instance Java, C++, Python, Ruby
+(e.g., ``rawhide-java``, ``epel7-cpp``)
+2. Add Docker images for EPEL6 (and EPEL5?)
+ 
+
 
