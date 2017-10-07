@@ -31,7 +31,7 @@ RUN cat /root/bashrc >> /root/.bashrc && rm -f /root/bashrc
 RUN yum -y install fedora-packager keyutils rpmconf yum-utils git-all bash-completion Lmod
 
 # Specific to C++- and Python-based packages
-RUN yum -y install gcc-c++ boost-devel cmake cmake3
+RUN yum -y install gcc-c++ boost-devel cmake cmake3 chrpath
 RUN yum -y install python-devel numpy python34-devel python34-numpy
 RUN yum -y install libicu-devel bzip2-devel m4 mpich-devel openmpi-devel
 
