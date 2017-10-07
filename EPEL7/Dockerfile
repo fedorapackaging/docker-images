@@ -23,15 +23,17 @@ RUN yum -y clean all
 RUN yum -y upgrade
 
 # Basic, convenient
-RUN yum -y install less htop net-tools which sudo man
+RUN yum -y install less htop net-tools which sudo man wget
 ADD resources/bashrc /root/
 RUN cat /root/bashrc >> /root/.bashrc && rm -f /root/bashrc
 
 # Fedora/CentOS/RedHat packaging
 RUN yum -y install fedora-packager keyutils rpmconf yum-utils git-all bash-completion Lmod
 
-# Specific to C++-based packages (with Python bindings)
-RUN yum -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python3-numpy mpich-devel openmpi-devel
+# Specific to C++- and Python-based packages
+RUN yum -y install gcc-c++ boost-devel cmake cmake3
+RUN yum -y install python-devel numpy python34-devel python34-numpy
+RUN yum -y install libicu-devel bzip2-devel m4 mpich-devel openmpi-devel
 
 # Documentation tools
 RUN yum -y install "tex(latex)"
