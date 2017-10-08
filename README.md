@@ -11,6 +11,23 @@ That project takes its inspiration from [Alan Franzoni's own initiative](http://
 Every time some changes are committed on the [project's GitHub repository](https://github.com/fedorapackaging/docker-images),
 the [Docker images are automatically rebuilt](https://hub.docker.com/r/fedorapackaging/builder/builds/) and pushed onto Docker Hub.
 
+# Pre-Requisites
+## Kerberos authentication via keytab file
+* Create a keytab file:
+```bash
+$ mkdir -p ~/.keytab
+$ ktutil 
+ktutil:  addent -password -p <fas-username>@FEDORAPROJECT.ORG -k 1 -e des-cbc-md5
+Password for <fas-username>@FEDORAPROJECT.ORG: 
+ktutil:  wkt <fas-username>.keytab
+ktutil:  quit
+$ mv <fas-username>.keytab ~/.keytab
+```
+* Check that the Kerberos authentication works:
+```bash
+$ kinit denisarnaud@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab 
+```
+
 # Images on Docker Hub
 * Docker Hub dashboard: https://hub.docker.com/r/fedorapackaging/builder/
 
