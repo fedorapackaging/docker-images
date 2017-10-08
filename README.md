@@ -25,7 +25,7 @@ $ mv <fas-username>.keytab ~/.keytab
 ```
 * Check that the Kerberos authentication works:
 ```bash
-$ kinit denisarnaud@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab 
+$ kinit <fas-username>@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab 
 ```
 
 # Images on Docker Hub
