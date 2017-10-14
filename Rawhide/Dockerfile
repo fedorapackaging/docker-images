@@ -3,8 +3,8 @@ FROM fedora:rawhide
 MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
 
 # Maintainer details (full name and email address)
-ARG full_name
-ARG email_address
+ARG full_name="Fedora Packager"
+ARG email_address="fedora.packager@fedoraproject.org"
 
 #
 ENV HOME /home/build
