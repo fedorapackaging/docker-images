@@ -1,0 +1,5 @@
+%vendor                 Fedora
+%_signature             gpg
+%_topdir                %(echo $HOME)/dev/packages
+%_smp_mflags            -j4
+
