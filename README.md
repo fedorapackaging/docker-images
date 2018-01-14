@@ -52,7 +52,8 @@ $ kinit <fas-username>@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab
 * Docker Hub dashboard: https://hub.docker.com/r/fedorapackaging/builder/
 
 # Using the Pre-Built Fedora/EPEL RPM Packaging Images
-``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora26``, ``epel7`` or ``epel6``
+``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora27``,
+``fedora26``, ``epel7`` or ``epel6``
 ```bash
 $ docker pull fedorapackaging/builder:<fedora-or-epel-version>
 $ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/builder:<fedora-or-epel-version>
@@ -81,7 +82,8 @@ $ docker kill fedorapackaging/builder:<fedora-or-epel-version>
 
 # Customize a Fedora/EPEL Packaging Docker Image
 The images may be customized, and pushed to Docker Hub:
-``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora26``, ``epel7`` or ``epel6``
+``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora27``,
+``fedora26``, ``epel7`` or ``epel6``
 ```bash
 $ mkdir -p ~/dev
 $ cd ~/dev
@@ -97,7 +99,7 @@ $ docker push fedorapackaging/<fedora-or-epel-version>:beta
 # TODO
 For any of the following features, an issue may be open [on GitHub](https://github.com/fedorapackaging/docker-images/issues):
 1. Have dedicated Docker images per main development stacks, for instance Java, C++, Python, Ruby
-(e.g., ``rawhide-java``, ``epel7-cpp``, ``fedora26-scala``)
+(e.g., ``rawhide-java``, ``epel7-cpp``, ``fedora27-scala``)
 2. Add Docker images for EPEL6 (and EPEL5?)
  
 
