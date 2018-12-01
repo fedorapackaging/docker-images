@@ -135,6 +135,8 @@ $ vi Dockerfile
 $ docker build -t fedorapackaging/<fedora-or-epel-version>:beta \
   --build-arg full_name="<your-full-name>" --build-arg email_address="<your-email-address>" \
   --squash .
+$ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/<fedora-or-epel-version>:beta
+[build@9..d fedora_packaging]$ exit
 $ docker push fedorapackaging/<fedora-or-epel-version>:beta
 ```
 

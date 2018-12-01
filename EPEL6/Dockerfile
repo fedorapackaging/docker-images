@@ -19,7 +19,7 @@ RUN yum -y clean all
 RUN yum -y upgrade
 
 # Basic, convenient
-RUN yum -y install less htop net-tools which sudo man wget
+RUN yum -y install less htop net-tools which sudo man wget vim
 ADD resources/bashrc /root/
 RUN cat /root/bashrc >> /root/.bashrc && rm -f /root/bashrc
 
@@ -49,9 +49,10 @@ ADD resources/ssh-config $HOME/.ssh/config
 RUN chmod 600 $HOME/.ssh/config $HOME/.ssh/known_hosts
 
 # Set up the packaging environment
-ADD resources/rpmmacros resources/bashrc resources/gitconfig $HOME/
+ADD resources/rpmmacros resources/bashrc resources/gitconfig resources/vimrc $HOME/
 RUN cat $HOME/bashrc >> $HOME/.bashrc && rm -f $HOME/bashrc && \
     chown -R build.build $HOME
+RUN mv $HOME/vimrc $HOME/.vimrc
 RUN echo "[user]" > $HOME/.gitconfig && \
     echo "    name = $FULL_NAME" >> $HOME/.gitconfig && \
     echo "    email = $EMAIL_ADDRESS" >> $HOME/.gitconfig && \

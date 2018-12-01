@@ -19,15 +19,16 @@ RUN rpm --import https://getfedora.org/static/CFC659B9.txt
 RUN dnf -y update || echo "Issue with RPM DB, that's fine"
 
 # Basic, convenient
-RUN dnf -y install less htop net-tools which sudo keychain man wget || echo "Issue with installing less. That's fine"
+RUN dnf -y install less htop net-tools which sudo keychain man wget vim || echo "Issue with installing less. That's fine"
 ADD resources/bashrc /root/
 RUN cat /root/bashrc >> /root/.bashrc && rm -f /root/bashrc
+
 
 # Fedora/CentOS/RedHat packaging
 RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod || echo "Issue with installing fedora-packager. That's fine"
 
 # Specific to C++-based packages (with Python bindings)
-RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"
+RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python2-numpy python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"
 
 # Documentation tools
 RUN dnf -y install "tex(latex)" || echo "Issue with installing Latex. That's fine"
@@ -47,9 +48,10 @@ ADD resources/ssh-config $HOME/.ssh/config
 RUN chmod 600 $HOME/.ssh/config $HOME/.ssh/known_hosts
 
 # Set up the packaging environment
-ADD resources/rpmmacros resources/bashrc resources/gitconfig $HOME/
+ADD resources/rpmmacros resources/bashrc resources/gitconfig resources/vimrc $HOME/
 RUN cat $HOME/bashrc >> $HOME/.bashrc && rm -f $HOME/bashrc && \
     chown -R build.build $HOME
+RUN mv $HOME/vimrc $HOME/.vimrc 
 RUN echo "[user]" > $HOME/.gitconfig && \
     echo "    name = $FULL_NAME" >> $HOME/.gitconfig && \
     echo "    email = $EMAIL_ADDRESS" >> $HOME/.gitconfig && \
