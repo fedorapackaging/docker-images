@@ -1,5 +1,5 @@
 
-FROM fedora:rawhide
+FROM fedora:29
 MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
 
 # Maintainer details (full name and email address)
@@ -13,9 +13,6 @@ ENV EMAIL_ADDRESS $email_address
 
 # Update of the OS
 RUN dnf -y clean all
-# For now, Rawhide still needs Fedora 30 GPG keys
-# (get the key from https://getfedora.org/keys/)
-RUN rpm --import https://getfedora.org/static/CFC659B9.txt
 RUN dnf -y update || echo "Issue with RPM DB, that's fine"
 
 # Basic, convenient

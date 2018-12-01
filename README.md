@@ -52,38 +52,80 @@ $ kinit <fas-username>@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab
 * Docker Hub dashboard: https://hub.docker.com/r/fedorapackaging/builder/
 
 # Using the Pre-Built Fedora/EPEL RPM Packaging Images
-``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora28``,
-``fedora27``, ``epel7`` or ``epel6``
+* Start the Docker container featuring the target release
+  (``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora29``,
+  ``fedora28``, ``epel7`` or ``epel6``):
 ```bash
 $ docker pull fedorapackaging/builder:<fedora-or-epel-version>
 $ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/builder:<fedora-or-epel-version>
+[build@5..0 dev]$ 
+```
+
+* (From within the Docker container,) Authenticate with Kerberos
+  on the Fedora Accounting System (FAS):
+```bash
 [build@5..0 dev]$ kinit <fas-username>@FEDORAPROJECT.ORG
+```
+
+* Clone a Fedora package (eg,
+  [Boost](http://www.boost.org) is used as an example here):
+```bash
 [build@5..0 dev]$ MYPACKAGE=boost
 [build@5..0 dev]$ fedpkg clone $MYPACKAGE
 [build@5..0 dev]$ cd $MYPACKAGE
+```
+
+* Retrieve the ``source`` files (mainly, source tarballs and patches):
+```bash
 [build@5..0 dev]$ fedpkg sources
-[build@5..0 dev]$ # Make some changes on the RPM specification file
+```
+
+* Make some changes on the RPM specification file, potentially
+  fix patches or even add new ones:
+```bash
 [build@5..0 dev]$ vi $MYPACKAGE.spec
-[build@5..0 dev]$ # Build locally
+[build@5..0 dev]$ git add $MYPACKAGE.spec
+```
+
+* Build the resulting packege locally:
+```bash
 [build@5..0 dev]$ fedpkg local
-[build@5..0 dev]$ # and/or
+```
+
+* Another Fedora release (eg, Rawhide here) may also be targeted
+  thanks to ``mock``:
+```bash
+$ fedpkg mockbuild --root fedora-rawhide-x86_64
+```
+
+* The build may also be done manually, to allow for an easier
+  step-by-step approach:
+```bash
 [Build@5..0 dev]$ cp -a *.{patch,bz2,so,py} ~/dev/packages/SOURCES
-[build@5..0 dev]$ cp -a *.spec ~/dev/packages/SPECS
+[build@5..0 dev]$ cp *.spec ~/dev/packages/SPECS
 [build@5..0 dev]$ cdbuild
 [build@5..0 dev]$ rpmbuild -ba $MYPACKAGE.spec
-[build@5..0 dev]$ # If everything went well, commit your work, update the Fedora repository and build with Koji
+```
+
+* If everything went well, commit your work, update the Fedora repository
+  and build with Koji:
+```bash
 [build@5..0 dev]$ cd -
 [build@5..0 dev]$ fedpkg clog
 [build@5..0 dev]$ fedpkg commit -F clog -p
 [build@5..0 dev]$ fedpkg build --nowait
 [build@5..0 dev]$ exit
+```
+
+* Delete the (temporary) Docker image:
+```bash
 $ docker kill fedorapackaging/builder:<fedora-or-epel-version>
 ```
 
 # Customize a Fedora/EPEL Packaging Docker Image
 The images may be customized, and pushed to Docker Hub:
-``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora28``,
-``fedora27``, ``epel7`` or ``epel6``
+``<fedora-or-epel-version>`` may be one of ``rawhide``, ``fedora29``,
+``fedora28``, ``epel7`` or ``epel6``
 ```bash
 $ mkdir -p ~/dev
 $ cd ~/dev
@@ -99,7 +141,7 @@ $ docker push fedorapackaging/<fedora-or-epel-version>:beta
 # TODO
 For any of the following features, an issue may be open [on GitHub](https://github.com/fedorapackaging/docker-images/issues):
 1. Have dedicated Docker images per main development stacks, for instance Java, C++, Python, Ruby
-(e.g., ``rawhide-java``, ``epel7-cpp``, ``fedora28-scala``)
+(e.g., ``rawhide-java``, ``epel7-cpp``, ``fedora29-scala``)
 2. Add Docker images for EPEL6 (and EPEL5?)
  
 
