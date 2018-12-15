@@ -4,18 +4,18 @@ Docker Images to Build (Official) Fedora/EPEL Packages
 # Introduction
 [That project](https://github.com/fedorapackaging/docker-images)
 produces Fedora/CentOS-based Docker images, hosted on [dedicated
-public Docker Hub site](https://hub.docker.com/r/fedorapackaging/builder/).
+public Docker Cloud site](https://cloud.docker.com/u/fedorapackaging/repository/docker/fedorapackaging/builder).
 Those Docker images are intended to ease the maintenance work of official
 Fedora/EPEL RPM packagers.
 
-That project takes its inspiration from [Alan Franzoni's own
+That project initially took its inspiration from [Alan Franzoni's own
 initiative](http://github.com/alanfranz/docker-rpm-builder).
 
 Every time some changes are committed on the [project's GitHub
 repository](https://github.com/fedorapackaging/docker-images),
 the [Docker images are automatically
-rebuilt](https://hub.docker.com/r/fedorapackaging/builder/builds/)
-and pushed onto Docker Hub.
+rebuilt](https://cloud.docker.com/u/fedorapackaging/repository/docker/fedorapackaging/builder/timeline)
+and pushed onto Docker Cloud.
 
 For most of Fedora/EPEL RPM packaging needs, picking the Docker image
 corresponding to the targeted Fedora/EPEL release is enough.
@@ -25,10 +25,10 @@ the Docker image may be amended so as to add that pre-requisite procedure.
 The preferred way to propose amendment of the Docker image is through
 [pull requests on the GitHub
 project](https://github.com/fedorapackaging/docker-images/pulls).
-Once the pull request has been merged, i.e., once the Dockerfile amendment
+Once the pull request has been merged, i.e., once the `Dockerfile` amendment
 has been [committed in
 GitHub](https://github.com/fedorapackaging/docker-images/commits/master),
-the Docker cloud then rebuilds the corresponding Docker image, which becomes
+Docker Cloud then rebuilds the corresponding Docker image, which becomes
 available for every one to use. 
 
 # Pre-Requisites
