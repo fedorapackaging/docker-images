@@ -1,4 +1,0 @@
-Host pkgs.fedoraproject.org
-  StrictHostKeyChecking no
-  IdentityFile ~/.ssh/id_rsa
-

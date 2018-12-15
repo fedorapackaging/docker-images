@@ -1,3 +1,5 @@
+%packager               Firstname Lastname email@example.com
+%_gpg_name              Firstname Lastname email@example.com
 %vendor                 Fedora
 %_signature             gpg
 %_topdir                %(echo $HOME)/dev/packages
