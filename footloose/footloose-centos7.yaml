@@ -1,0 +1,11 @@
+cluster:
+  name: cluster
+  privateKey: cluster-key
+machines:
+- count: 1
+  spec:
+    image: quay.io/footloose/centos7
+    name: epel7%d
+    portMappings:
+    - containerPort: 22
+
