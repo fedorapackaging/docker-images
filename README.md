@@ -25,8 +25,8 @@ the Docker image may be amended so as to add that pre-requisite procedure.
 The preferred way to propose amendment of the Docker image is through
 [pull requests on the GitHub
 project](https://github.com/fedorapackaging/docker-images/pulls).
-Once the pull request has been merged, i.e., once the `Dockerfile` amendment
-has been [committed in
+Once the pull request has been merged, _i.e._, once the `Dockerfile`
+amendment has been [committed in
 GitHub](https://github.com/fedorapackaging/docker-images/commits/master),
 Docker Cloud then rebuilds the corresponding Docker image, which becomes
 available for every one to use. 
@@ -53,8 +53,8 @@ $ kinit <fas-username>@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab
 
 # Using the Pre-Built Fedora/EPEL RPM Packaging Images
 * Start the Docker container featuring the target release
-  (`<fedora-or-epel-version>` may be one of `rawhide`, `fedora29`,
-  `fedora28`, `epel7` or `epel6`):
+  (`<fedora-or-epel-version>` may be one of `rawhide`, `fedora30`,
+  `fedora29`, `fedora28`, `epel7` or `epel6`):
 ```bash
 $ docker pull fedorapackaging/builder:<fedora-or-epel-version>
 $ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/builder:<fedora-or-epel-version>
@@ -154,8 +154,8 @@ $ docker kill fedorapackaging/builder:<fedora-or-epel-version>
 
 # Customize a Fedora/EPEL Packaging Docker Image
 The images may be customized, and pushed to Docker Hub:
-`<fedora-or-epel-version>` may be one of `rawhide`, `fedora29`,
-`fedora28`, `epel7` or `epel6`
+`<fedora-or-epel-version>` may be one of `rawhide`, `fedora30`,
+`fedora29`, `fedora28`, `epel7` or `epel6`
 ```bash
 $ mkdir -p ~/dev
 $ cd ~/dev
@@ -172,7 +172,7 @@ $ docker push fedorapackaging/<fedora-or-epel-version>:beta
 For any of the following features, an issue may be open [on GitHub](https://github.com/fedorapackaging/docker-images/issues):
 1. Have dedicated Docker images per main development stacks,
    for instance Java, C++, Python, Ruby (e.g., `rawhide-java`, `epel7-cpp`,
-   `fedora29-scala`)
+   `fedora30-scala`)
 2. Automate regular rebuilds (e.g., once a day for Rawhide, weekly for Fedora
    and monthly for EPEL)
 

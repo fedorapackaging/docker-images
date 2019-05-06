@@ -1,0 +1,12 @@
+
+# Prompt
+source /usr/share/git-core/contrib/completion/git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+
+# Aliases
+alias dir='ls -laFh --color'
+alias cdbuild='cd ~/dev/packages/SPECS'
+alias cdreviews='cd ~/dev/fedorareviews'
+
