@@ -7,6 +7,8 @@ Distrobuilder: build LXC container images
   [the Docker images for Fedora packaging project](https://github.com/fedorapackaging/docker-images)
 * [Distrobuilder on GitHub](https://github.com/lxc/distrobuilder)
 * [Using distrobuilder to create container images for LXC and LXD](https://blog.simos.info/using-distrobuilder-to-create-container-images-for-lxc-and-lxd/)
+* [Official templates to generate LXC images](https://github.com/lxc/lxc-ci/tree/master/images)
+  + [Official LXC Fedora YAML template](https://github.com/lxc/lxc-ci/blob/master/images/fedora.yaml)
 
 # Installation
 
