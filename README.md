@@ -1,6 +1,8 @@
 Docker Images to Build (Official) Fedora/EPEL Packages
 ======================================================
 
+[![Docker Repository on Quay](https://quay.io/repository/fedorapackaging/builder/status "Docker Repository on Quay")](https://quay.io/repository/fedorapackaging/builder)
+
 # Introduction
 [That project](https://github.com/fedorapackaging/docker-images)
 produces Fedora/CentOS-based Docker images, hosted on [dedicated
