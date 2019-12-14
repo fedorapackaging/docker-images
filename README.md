@@ -6,7 +6,7 @@ Docker Images to Build (Official) Fedora/EPEL Packages
 # Introduction
 [That project](https://github.com/fedorapackaging/docker-images)
 produces Fedora/CentOS-based Docker images, hosted on [dedicated
-public Docker Cloud site](https://cloud.docker.com/u/fedorapackaging/repository/docker/fedorapackaging/builder).
+public Docker Cloud site](https://hub.docker.com/repository/docker/fedorapackaging/builder).
 Those Docker images are intended to ease the maintenance work of official
 Fedora/EPEL RPM packagers.
 
@@ -16,7 +16,7 @@ initiative](http://github.com/alanfranz/docker-rpm-builder).
 Every time some changes are committed on the [project's GitHub
 repository](https://github.com/fedorapackaging/docker-images),
 the [Docker images are automatically
-rebuilt](https://cloud.docker.com/u/fedorapackaging/repository/docker/fedorapackaging/builder/timeline)
+rebuilt](https://hub.docker.com/repository/docker/fedorapackaging/builder/timeline)
 and pushed onto Docker Cloud.
 
 For most of Fedora/EPEL RPM packaging needs, picking the Docker image
@@ -55,8 +55,8 @@ $ kinit <fas-username>@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab
 
 # Using the Pre-Built Fedora/EPEL RPM Packaging Images
 * Start the Docker container featuring the target release
-  (`<fedora-or-epel-version>` may be one of `rawhide`, `fedora30`,
-  `fedora29`, `fedora28`, `epel7` or `epel6`):
+  (`<fedora-or-epel-version>` may be one of `rawhide`, `fedora31`,
+  `fedora30`, `epel8`, `epel7` or `epel6`):
 ```bash
 $ docker pull fedorapackaging/builder:<fedora-or-epel-version>
 $ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/builder:<fedora-or-epel-version>
@@ -108,7 +108,7 @@ Resolving deltas: 100% (964/964), done.
 * Retrieve the `source` files (mainly, source tarballs and patches):
 ```bash
 [build@5..0 boost]$ fedpkg sources
-Downloading boost_1_69_0.tar.bz2
+Downloading boost_1_72_0.tar.bz2
 ################################################### 100.0%
 ```
 
@@ -124,16 +124,23 @@ Downloading boost_1_69_0.tar.bz2
 [build@5..0 boost]$ fedpkg local
 ```
 
-* Another Fedora release (eg, Rawhide here) may also be targeted
+* Another Fedora release (_e.g._, Rawhide here) may also be targeted
   thanks to `mock`:
 ```bash
-$ fedpkg mockbuild --root fedora-rawhide-x86_64
+[build@5..0 boost]$ fedpkg mockbuild --root fedora-rawhide-x86_64
+```
+
+* Launch a Koji build:
+```bash
+[build@5..0 fedora_packaging]$ cdbuild
+[build@5..0 SPECS]$ rpmbuild -bs $MYPACKAGE.spec
+[build@5..0 SPECS]$ koji build --arch-override=x86_64 --scratch --nowait rawhide /home/build/dev/packages/SRPM/$MYPACKAGE-$MYVER.src.rpm
 ```
 
 * The build may also be done manually, to allow for an easier
   step-by-step approach:
 ```bash
-[Build@5..0 boost]$ cp -a *.{patch,bz2,so} ~/dev/packages/SOURCES
+[build@5..0 boost]$ cp -a *.{patch,bz2,so} ~/dev/packages/SOURCES
 [build@5..0 boost]$ cp *.spec ~/dev/packages/SPECS
 [build@5..0 boost]$ cdbuild
 [build@5..0 SPECS]$ rpmbuild -ba $MYPACKAGE.spec
@@ -156,8 +163,8 @@ $ docker kill fedorapackaging/builder:<fedora-or-epel-version>
 
 # Customize a Fedora/EPEL Packaging Docker Image
 The images may be customized, and pushed to Docker Hub:
-`<fedora-or-epel-version>` may be one of `rawhide`, `fedora30`,
-`fedora29`, `fedora28`, `epel7` or `epel6`
+`<fedora-or-epel-version>` may be one of `rawhide`, `fedora31`,
+`fedora30`, `epel8`, `epel7` or `epel6`
 ```bash
 $ mkdir -p ~/dev
 $ cd ~/dev
@@ -171,11 +178,12 @@ $ docker push fedorapackaging/<fedora-or-epel-version>:beta
 ```
 
 # TODO
-For any of the following features, an issue may be open [on GitHub](https://github.com/fedorapackaging/docker-images/issues):
+For any of the following features, an issue may be open
+[on GitHub](https://github.com/fedorapackaging/docker-images/issues):
 1. Have dedicated Docker images per main development stacks,
-   for instance Java, C++, Python, Ruby (e.g., `rawhide-java`, `epel7-cpp`,
-   `fedora30-scala`)
-2. Automate regular rebuilds (e.g., once a day for Rawhide, weekly for Fedora
+   for instance Java, C++, Python, Ruby (_e.g._, `rawhide-java`, `epel8-cpp`,
+   `fedora31-scala`)
+2. Automate regular rebuilds (_e.g._, once a day for Rawhide, weekly for Fedora
    and monthly for EPEL)
 
 

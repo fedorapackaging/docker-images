@@ -1,32 +1,45 @@
 #
-# https://github.com/fedorapackaging/docker-images/tree/master/F29
+# https://github.com/fedorapackaging/docker-images/tree/master/EPEL8
 #
-FROM fedora:29
+FROM centos:8
 MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
 
 #
 ENV HOME /home/build
 
-# Update of the OS
-RUN dnf -y clean all
-RUN dnf -y update || echo "Issue with RPM DB, that's fine"
+# Import the Centos-8 GPG key to prevent warnings
+RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-Official && \
+  rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Testing
+
+# Add the repository for PowerTools
+RUN dnf -y install 'dnf-command(config-manager)'
+RUN dnf config-manager --set-enabled PowerTools
+
+# Add EPEL support
+RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+# Update of CentOS
+RUN dnf -y clean all && \
+    dnf -y upgrade
 
 # Basic, convenient
-RUN dnf -y install less htop net-tools which sudo keychain man wget vim || echo "Issue with installing less. That's fine"
+RUN dnf -y install less htop net-tools which sudo man wget curl vim
 ADD resources/bashrc /root/.bashrc
 
 # Fedora/CentOS/RedHat packaging
-RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod || echo "Issue with installing fedora-packager. That's fine"
+RUN dnf -y install fedora-packager keyutils rpmconf yum-utils git-all bash-completion Lmod
 
-# Specific to C++-based packages (with Python bindings)
-RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"
+# Specific to C++- and Python-based packages
+RUN dnf -y install gcc-c++ boost-devel cmake cmake3
+RUN dnf -y install python-devel numpy python34-devel python34-numpy
+RUN dnf -y install libicu-devel bzip2-devel m4 mpich-devel openmpi-devel
 
 # Documentation tools
-RUN dnf -y install "tex(latex)" || echo "Issue with installing Latex. That's fine"
-RUN dnf -y install doxygen ghostscript || echo "Issue with installing documentation tools. That's fine"
+RUN dnf -y install "tex(latex)"
+RUN dnf -y install doxygen ghostscript
 
 # SOCI, ZeroMQ
-RUN dnf -y install zeromq-devel czmq-devel soci-mysql-devel soci-sqlite3-devel readline-devel || echo "Issue with installing zeromq. That's fine"
+RUN dnf -y install zeromq-devel czmq-devel soci-mysql-devel soci-sqlite3-devel readline-devel
 
 # Create the 'build' user (for the package maintainer)
 RUN adduser -m -G mock build

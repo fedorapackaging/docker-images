@@ -1,5 +1,5 @@
 #
-# https://github.com/fedorapackaging/docker-images/tree/master/F29
+# https://github.com/fedorapackaging/docker-images/tree/master/F30
 #
 FROM fedora:30
 MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
