@@ -9,9 +9,8 @@ ENV HOME /home/build
 
 # Update of the OS
 RUN dnf -y clean all
-# For now, Rawhide still needs Fedora 30 GPG keys
-# (get the key from https://getfedora.org/keys/)
-RUN rpm --import https://getfedora.org/static/CFC659B9.txt
+# Get the keys from https://getfedora.org/keys/
+RUN dnf upgrade --enablerepo=updates -y fedora-gpg-keys
 RUN dnf -y update || echo "Issue with RPM DB, that's fine"
 
 # Basic, convenient
