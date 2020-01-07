@@ -31,7 +31,7 @@ RUN dnf -y install fedora-packager keyutils rpmconf yum-utils git-all bash-compl
 
 # Specific to C++- and Python-based packages
 RUN dnf -y install gcc-c++ boost-devel cmake cmake3
-RUN dnf -y install python-devel numpy python34-devel python34-numpy
+RUN dnf -y install python-devel numpy python36-devel python36-numpy
 RUN dnf -y install libicu-devel bzip2-devel m4 mpich-devel openmpi-devel
 
 # Documentation tools
