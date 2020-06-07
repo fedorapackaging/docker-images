@@ -1,7 +1,7 @@
 #
-# https://github.com/fedorapackaging/docker-images/tree/master/F30
+# https://github.com/fedorapackaging/docker-images/tree/master/F32
 #
-FROM fedora:30
+FROM fedora:32
 MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
 
 #
@@ -19,7 +19,7 @@ ADD resources/bashrc /root/.bashrc
 RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod || echo "Issue with installing fedora-packager. That's fine"
 
 # Specific to C++-based packages (with Python bindings)
-RUN dnf -y install gcc-c++ boost-devel cmake python2-devel python3-devel bzip2-devel m4 python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"
+RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python2-numpy python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"
 
 # Documentation tools
 RUN dnf -y install "tex(latex)" || echo "Issue with installing Latex. That's fine"
