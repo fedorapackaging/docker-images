@@ -16,7 +16,7 @@ RUN dnf -y install less htop net-tools which sudo keychain man wget vim || echo 
 ADD resources/bashrc /root/.bashrc
 
 # Fedora/CentOS/RedHat packaging
-RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod || echo "Issue with installing fedora-packager. That's fine"
+RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod make || echo "Issue with installing fedora-packager. That's fine"
 
 # Specific to C++-based packages (with Python bindings)
 RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python2-numpy python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"
