@@ -13,7 +13,7 @@ RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-Official && 
 
 # Add the repository for PowerTools
 RUN dnf -y install 'dnf-command(config-manager)'
-RUN dnf config-manager --set-enabled PowerTools
+RUN dnf config-manager --set-enabled powertools
 
 # Add EPEL support
 RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
