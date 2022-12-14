@@ -19,32 +19,34 @@ LABEL authors="Denis Arnaud <denis.arnaud_github at m4x dot org>"
 #
 ENV HOME /home/build
 
-# Import the Centos-8 GPG key to prevent warnings
+# Import the Centos GPG key to prevent warnings
 RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-Official && \
   rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Testing
 
-# Add the repository for PowerTools
+# Add the repository for CodeReady Linux Builder (CRB)
 RUN dnf -y install 'dnf-command(config-manager)'
-RUN dnf config-manager --set-enabled powertools
+RUN dnf config-manager --set-enabled crb
 
 # Add EPEL support
-RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 # Update of CentOS
 RUN dnf -y clean all && \
     dnf -y upgrade
 
 # Basic, convenient
-RUN dnf -y install less htop net-tools which sudo man wget curl vim
+RUN dnf -y install curl-minimal --skip-broken --best --allowerasing
+RUN dnf -y install less htop net-tools which sudo man wget vim
 ADD resources/bashrc /root/.bashrc
 
 # Fedora/CentOS/RedHat packaging
-RUN dnf -y install fedora-packager keyutils rpmconf yum-utils git-all bash-completion Lmod
+#RUN dnf -y install fedora-packager
+RUN dnf -y install keyutils rpmconf yum-utils git-all bash-completion Lmod
 
 # Specific to C++- and Python-based packages
-RUN dnf -y install gcc-c++ boost-devel cmake cmake3
-RUN dnf -y install python36-devel python3-numpy
-RUN dnf -y install libicu-devel bzip2-devel m4 mpich-devel openmpi-devel
+RUN dnf -y install gcc-c++ boost-devel cmake
+RUN dnf -y install python-devel
+RUN dnf -y install libicu-devel bzip2-devel xz-devel m4 mpich-devel openmpi-devel
 
 # Documentation tools
 RUN dnf -y install "tex(latex)"
@@ -54,6 +56,7 @@ RUN dnf -y install doxygen ghostscript
 RUN dnf -y install zeromq-devel czmq-devel soci-mysql-devel soci-sqlite3-devel readline-devel
 
 # Create the 'build' user (for the package maintainer)
+RUN groupadd mock
 RUN adduser -m -G mock build
 RUN echo "build ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/build && \
     chmod 0440 /etc/sudoers.d/build
@@ -76,7 +79,7 @@ RUN chown -R build.build $HOME
 WORKDIR $HOME
 
 USER build
-RUN rpmdev-setuptree
+#RUN rpmdev-setuptree
 
 # Check out the Fedora review helper project
 RUN mkdir -p $HOME/dev/fedora_packaging
