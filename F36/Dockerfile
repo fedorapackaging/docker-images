@@ -1,7 +1,7 @@
 #
-# https://github.com/fedorapackaging/docker-images/tree/master/Rawhide
+# https://github.com/fedorapackaging/docker-images/tree/master/F36
 #
-FROM fedora:rawhide
+FROM fedora:36
 
 LABEL authors="Denis Arnaud <denis.arnaud_github at m4x dot org>"
 
@@ -10,8 +10,6 @@ ENV HOME /home/build
 
 # Update of the OS
 RUN dnf -y clean all
-# Get the keys from https://getfedora.org/keys/
-RUN dnf upgrade --enablerepo=updates -y fedora-gpg-keys
 RUN dnf -y update || echo "Issue with RPM DB, that's fine"
 
 # Basic, convenient
@@ -19,7 +17,7 @@ RUN dnf -y install less htop net-tools which sudo keychain man wget vim || echo 
 ADD resources/bashrc /root/.bashrc
 
 # Fedora/CentOS/RedHat packaging
-RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod || echo "Issue with installing fedora-packager. That's fine"
+RUN dnf -y install fedora-packager keyutils rpmconf dnf-utils git-all bash-completion Lmod make || echo "Issue with installing fedora-packager. That's fine"
 
 # Specific to C++-based packages (with Python bindings)
 RUN dnf -y install gcc-c++ boost-devel cmake python-devel python3-devel bzip2-devel m4 python2-numpy python3-numpy mpich-devel openmpi-devel || echo "Issue with installing boost-devel. That's fine"

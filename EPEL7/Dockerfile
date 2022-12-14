@@ -2,7 +2,8 @@
 # https://github.com/fedorapackaging/docker-images/tree/master/EPEL7
 #
 FROM centos:7
-MAINTAINER Denis Arnaud <denis.arnaud_fedora@m4x.org>
+
+LABEL authors="Denis Arnaud <denis.arnaud_github at m4x dot org>"
 
 #
 ENV HOME /home/build

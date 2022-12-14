@@ -1,12 +1,13 @@
 Docker Images to Build (Official) Fedora/EPEL Packages
 ======================================================
 
+[![Docker Cloud build status](https://img.shields.io/docker/cloud/build/infrahelpers/fedorapackaging)](https://hub.docker.com/repository/docker/infrahelpers/fedorapackaging/general)
 [![Docker Repository on Quay](https://quay.io/repository/fedorapackaging/builder/status "Docker Repository on Quay")](https://quay.io/repository/fedorapackaging/builder)
 
 # Introduction
 [That project](https://github.com/fedorapackaging/docker-images)
 produces Fedora/CentOS-based Docker images, hosted on [dedicated
-public Docker Cloud site](https://hub.docker.com/repository/docker/fedorapackaging/builder).
+public Docker Cloud site](https://hub.docker.com/repository/docker/infrahelpers/fedorapackaging).
 Those Docker images are intended to ease the maintenance work of official
 Fedora/EPEL RPM packagers.
 
@@ -16,7 +17,7 @@ initiative](http://github.com/alanfranz/docker-rpm-builder).
 Every time some changes are committed on the [project's GitHub
 repository](https://github.com/fedorapackaging/docker-images),
 the [Docker images are automatically
-rebuilt](https://hub.docker.com/repository/docker/fedorapackaging/builder/timeline)
+rebuilt](https://hub.docker.com/repository/docker/infrahelpers/fedorapackaging/timeline)
 and pushed onto Docker Cloud.
 
 For most of Fedora/EPEL RPM packaging needs, picking the Docker image
@@ -51,15 +52,15 @@ $ kinit <fas-username>@FEDORAPROJECT.ORG -k -t ~/.keytab/<fas-username>.keytab
 ```
 
 # Images on Docker Hub
-* Docker Hub dashboard: https://hub.docker.com/r/fedorapackaging/builder/
+* Docker Hub dashboard: https://hub.docker.com/r/infrahelpers/fedorapackaging/
 
 # Using the Pre-Built Fedora/EPEL RPM Packaging Images
 * Start the Docker container featuring the target release
-  (`<fedora-or-epel-version>` may be one of `rawhide`, `fedora31`,
-  `fedora30`, `epel8`, `epel7` or `epel6`):
+  (`<fedora-or-epel-version>` may be one of `rawhide`, `fedora37`,
+  `fedora36`, `epel9`, `epel8` or `epel7`):
 ```bash
-$ docker pull fedorapackaging/builder:<fedora-or-epel-version>
-$ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/builder:<fedora-or-epel-version>
+$ docker pull infrahelpers/fedorapackaging:<fedora-or-epel-version>
+$ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it infrahelpers/fedorapackaging:<fedora-or-epel-version>
 [build@5..0 fedora_packaging]$ 
 ```
 
@@ -158,7 +159,7 @@ Downloading boost_1_72_0.tar.bz2
 
 * Delete the (temporary) Docker image:
 ```bash
-$ docker kill fedorapackaging/builder:<fedora-or-epel-version>
+$ docker kill infrahelpers/fedorapackaging:<fedora-or-epel-version>
 ```
 
 # Customize a Fedora/EPEL Packaging Docker Image
@@ -166,15 +167,15 @@ The images may be customized, and pushed to Docker Hub:
 `<fedora-or-epel-version>` may be one of `rawhide`, `fedora31`,
 `fedora30`, `epel8`, `epel7` or `epel6`
 ```bash
-$ mkdir -p ~/dev
-$ cd ~/dev
+$ mkdir -p ~/dev/fedora
+$ cd ~/dev/fedora
 $ git clone https://github.com/fedorapackaging/docker-images.git
-$ cd docker-images/<fedora-or-epel-version>
-$ vi Dockerfile
-$ docker build -t fedorapackaging/<fedora-or-epel-version>:beta --squash .
-$ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it fedorapackaging/<fedora-or-epel-version>:beta
+$ cd docker-images
+$ vi <fedora-or-epel-version>/Dockerfile
+$ docker build -t infrahelpers/fedorapackaging:<fedora-or-epel-version> <fedora-or-epel-version>/
+$ docker run --rm --privileged=true -v ~/.ssh/id_rsa:/home/build/.ssh/id_rsa -v ~/.ssh/id_rsa.pub:/home/build/.ssh/id_rsa.pub -it infrahelpers/fedorapackaging:<fedora-or-epel-version>
 [build@9..d fedora_packaging]$ exit
-$ docker push fedorapackaging/<fedora-or-epel-version>:beta
+$ docker push infrahelpers/fedorapackaging:<fedora-or-epel-version>
 ```
 
 # TODO
@@ -182,7 +183,7 @@ For any of the following features, an issue may be open
 [on GitHub](https://github.com/fedorapackaging/docker-images/issues):
 1. Have dedicated Docker images per main development stacks,
    for instance Java, C++, Python, Ruby (_e.g._, `rawhide-java`, `epel8-cpp`,
-   `fedora31-scala`)
+   `fedora37-scala`)
 2. Automate regular rebuilds (_e.g._, once a day for Rawhide, weekly for Fedora
    and monthly for EPEL)
 

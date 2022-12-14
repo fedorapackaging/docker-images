@@ -1,18 +1,18 @@
 #
-# Dockerfile: https://github.com/fedorapackaging/docker-images/tree/master/EPEL8
+# Dockerfile: https://github.com/fedorapackaging/docker-images/tree/master/EPEL9
 #
 #
 # See also:
-# Dockerfile: http://github.com/cpp-projects-showcase/docker-images/tree/master/centos8
+# Dockerfile: http://github.com/cpp-projects-showcase/docker-images/tree/master/centos9
 # Docker Hub/Cloud page: https://cloud.docker.com/u/infrahelpers/repository/docker/infrahelpers/cpppython
 #
 # Base image:
-# * Hub/cloud: 'stream8' on
+# * Hub/cloud: 'stream9' on
 #   + Docker.io: https://hub.docker.com/r/tgagor/centos-stream 
 #   + Quay.io: https://quay.io/repository/centos/centos?tab=tags
-# * Dockerfile: https://github.com/tgagor/docker-centos/blob/master/stream8/Dockerfile
+# * Dockerfile: https://github.com/tgagor/docker-centos/blob/master/stream9/Dockerfile
 #
-FROM quay.io/centos/centos:stream8
+FROM quay.io/centos/centos:stream9
 
 LABEL authors="Denis Arnaud <denis.arnaud_github at m4x dot org>"
 
